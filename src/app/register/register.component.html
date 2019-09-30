@@ -1,0 +1,62 @@
+<!-- Material form register -->
+<mdb-card style="width: 40%; margin: auto; margin-top: 110px;">
+
+  <mdb-card-header class="danger-color white-text text-center py-4">
+    <h5>
+      <strong>Sign up</strong>
+    </h5>
+  </mdb-card-header>
+
+  <!--Card content-->
+  <mdb-card-body class="px-lg-5 pt-0">
+
+    <!-- Form -->
+    <form class="text-center" style="color: #757575;" [formGroup]="registerForm">
+
+      <!-- Full name -->
+      <div class="md-form">
+        <input type="text" id="materialRegisterFormFullName" class="form-control" mdbInput formControlName="fullName">
+        <label for="materialRegisterFormFullName">Full name</label>
+        <span *ngIf="isValid('fullName')" style="color: red">Full name is required !</span>
+      </div>
+
+      <!-- E-mail -->
+      <div class="md-form mt-0">
+        <input type="email" id="materialRegisterFormEmail" class="form-control" mdbInput formControlName="email">
+        <label for="materialRegisterFormEmail">E-mail</label>
+        <span *ngIf="isValid('email')" style="color: red">Email cannot be blank</span>
+      </div>
+
+      <!-- Password -->
+      <div class="md-form">
+        <input type="password" id="materialRegisterFormPassword" class="form-control" mdbInput formControlName="password">
+        <label for="materialRegisterFormPassword">Password</label>
+        <span *ngIf="isValid('password')" style="color: red">Password cannot be blank</span>
+      </div>
+
+      <!-- Sign up button -->
+      <button mdbBtn color="danger" outline="true" rounded="true" block="true" class="my-4 waves-effect z-depth-0" mdbWavesEffect
+        type="submit" (click)="register()">Sign Up</button>
+
+      <hr>
+
+      <!-- Terms of service -->
+      <p>By clicking
+        <em>Sign up</em> you agree to our
+        <a href="" target="_blank">terms of service</a> and
+        <a href="" target="_blank">terms of service</a>.
+      </p>
+
+      <hr>
+
+      <div>
+        <p>Already have an account? <a [routerLink]="['/login']">Login</a></p>
+      </div>
+
+    </form>
+    <!-- Form -->
+
+  </mdb-card-body>
+
+</mdb-card>
+<!-- Material form register -->

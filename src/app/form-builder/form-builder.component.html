@@ -1,0 +1,234 @@
+<mat-toolbar class="toolbar">Form Builder</mat-toolbar>
+
+<div class="container">
+  <form class="form" [formGroup]="surveyForm" autocomplete="off">
+
+    <mat-card class="card">
+      <h4>Add a Survey</h4>
+      <div formGroupName="survey_details">
+
+        <div>
+          <mat-form-field class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" placeholder="">
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field class="full-width">
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description" placeholder=""></textarea>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <mat-card class="card">
+        <h4>Add a Question</h4>
+        <div formArrayName="questions">
+
+          <div class="questions" *ngFor=" let question of surveyForm.get('questions')['controls']; let questionIndex = index" [formGroupName]="questionIndex">
+
+            <mat-card class="card">
+
+              <div>
+                <mat-form-field class="full-width">
+                  <mat-label>Title</mat-label>
+                  <input matInput formControlName="title" placeholder="">
+                </mat-form-field>
+              </div>
+
+              <div>
+                <mat-form-field class="full-width">
+                  <mat-label>Type</mat-label>
+                  <mat-select formControlName="type" [(value)]="selectedType[questionIndex]">
+                    <mat-option *ngFor="let inputtype of inputTypes" [value]="inputtype.value">
+                      {{inputtype.viewValue}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div>
+                <button mat-raised-button color="accent" (click)="deleteQuestion(questionIndex)">Delete Question</button>
+              </div>
+
+              <div [ngSwitch]="selectedType[questionIndex]">
+
+                <div *ngSwitchCase="'checkbox'">
+                  <div class="optionarray" formArrayName="options">
+                    <div class="options" *ngFor="let option of question.get('options').controls; let optionIndex = index" [formGroupName]="optionIndex">
+                      <mat-form-field class="option">
+                        <mat-label>Option</mat-label>
+                        <input matInput formControlName="optionvalue" placeholder="">
+                      </mat-form-field>
+                      <button mat-icon-button (click)="deleteOption(question, optionIndex)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <button mat-raised-button (click)="addOption(question)">Add Option</button>
+                </div>
+
+                <div *ngSwitchCase="'datepicker'"></div>
+
+                <div *ngSwitchCase="'email'"></div>
+
+                <div *ngSwitchCase="'number'"></div>
+
+                <div *ngSwitchCase="'radio'">
+                  <div formArrayName="options">
+                    <div class="options" *ngFor="let option of question.get('options').controls; let optionIndex = index" [formGroupName]="optionIndex">
+                      <mat-form-field class="option">
+                        <mat-label>Option</mat-label>
+                        <input matInput formControlName="optionvalue" placeholder="">
+                      </mat-form-field>
+                      <button mat-icon-button (click)="deleteOption(question, optionIndex)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                  <button mat-raised-button (click)="addOption(question)">Add Option</button>
+                </div>
+
+                <div *ngSwitchCase="'select'">
+                  <div formArrayName="options">
+                    <div class="options" *ngFor="let option of question.get('options').controls; let optionIndex = index" [formGroupName]="optionIndex">
+                      <mat-form-field class="option">
+                        <mat-label>Option</mat-label>
+                        <input matInput formControlName="optionvalue" placeholder="">
+                      </mat-form-field>
+                      <button mat-raised-button color="accent" (click)="deleteOption(question, optionIndex)">Delete Option</button>
+                    </div>
+                  </div>
+                  <button mat-raised-button (click)="addOption(question)">Add Option</button>
+                </div>
+
+                <div *ngSwitchCase="'tel'"></div>
+
+                <div *ngSwitchCase="'text'"></div>
+
+                <div *ngSwitchCase="'textarea'"></div>
+
+                <div *ngSwitchCase="'time'"></div>
+
+              </div>
+
+            </mat-card>
+
+          </div>
+
+        </div>
+
+        <div>
+          <button mat-raised-button color="primary" (click)="addQuestion()">Add Question</button>
+        </div>
+
+      </mat-card>
+      <div>
+        <button mat-raised-button color="primary" (click)="onSubmit(surveyForm.value.survey_details.name, surveyForm.value.survey_details.description, userDetails.email, surveyForm.value)">Save</button>
+      </div>
+    </mat-card>
+
+  </form>
+
+  <hr>
+
+  <div class="container">
+    <mat-card class="card">
+      <h4>Preview</h4>
+      <div>
+        <mat-label>Name:</mat-label>
+        <p>{{surveyForm.value.survey_details.name}}</p>
+      </div>
+      <div>
+          <mat-label>Description:</mat-label>
+        <p>{{surveyForm.value.survey_details.description}}</p>
+      </div>
+      <hr>
+      <div *ngFor="let q of surveyForm.value.questions" [ngSwitch]="q.type">
+
+        <div *ngSwitchCase="'checkbox'">
+          <p>{{q.title}}</p>
+          <div *ngFor="let op of q.options">
+            <mat-checkbox>{{op.optionvalue}}</mat-checkbox>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'datepicker'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'email'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="email" matInput>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'number'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="number" matInput>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'radio'">
+          <p>{{q.title}}</p>
+          <div *ngFor="let op of q.options">
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button value="op.optionvalue">{{op.optionvalue}}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'select'">
+          <p>{{q.title}}</p>
+          <div >
+            <mat-form-field class="full-width">
+              <mat-select>
+                <mat-option *ngFor="let op of q.options">
+                  {{op.optionvalue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'tel'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="tel" matInput>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'text'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="text" matInput>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'textarea'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <textarea matInput></textarea>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'time'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="time" matInput>
+          </mat-form-field>
+        </div>
+
+      </div>
+    </mat-card>
+  </div>
+</div>

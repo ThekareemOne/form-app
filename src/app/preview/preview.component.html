@@ -1,0 +1,101 @@
+<mat-toolbar>Preview</mat-toolbar>
+
+<div class="container">
+    <mat-card class="card">
+      <div>
+        <mat-label>Name:</mat-label>
+        <p>{{formData.name}}</p>
+      </div>
+      <div>
+          <mat-label>Description:</mat-label>
+        <p>{{formData.description}}</p>
+      </div>
+      <hr>
+      <div *ngFor="let q of parsedForm.questions" [ngSwitch]="q.type">
+
+        <div *ngSwitchCase="'checkbox'">
+          <p>{{q.title}}</p>
+          <div *ngFor="let op of q.options">
+            <mat-checkbox>{{op.optionvalue}}</mat-checkbox>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'datepicker'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'email'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="email" matInput>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'number'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="number" matInput>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'radio'">
+          <p>{{q.title}}</p>
+          <div *ngFor="let op of q.options">
+            <mat-radio-group aria-label="Select an option">
+              <mat-radio-button value="op.optionvalue">{{op.optionvalue}}</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'select'">
+          <p>{{q.title}}</p>
+          <div >
+            <mat-form-field class="full-width">
+              <mat-select>
+                <mat-option *ngFor="let op of q.options">
+                  {{op.optionvalue}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div *ngSwitchCase="'tel'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="tel" matInput>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'text'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="text" matInput>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'textarea'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <textarea matInput></textarea>
+          </mat-form-field>
+        </div>
+
+        <div *ngSwitchCase="'time'">
+          <p>{{q.title}}</p>
+          <mat-form-field class="full-width">
+            <input type="time" matInput>
+          </mat-form-field>
+        </div>
+
+      </div>
+      <div>
+        <button mat-raised-button>Submit</button>
+      </div>
+    </mat-card>
+  </div>

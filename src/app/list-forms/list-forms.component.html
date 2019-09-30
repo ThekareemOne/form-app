@@ -1,0 +1,39 @@
+<mat-toolbar>List of Forms</mat-toolbar>
+
+<div class="container">
+  <mat-card>
+      <div>
+          <button class="addbutton" mat-raised-button color="primary" (click)="addForm()">Add Form</button>
+      </div>
+      <h2>All Forms</h2>
+      <div class="table-responsive table-container">
+        <table class="table table-white table-hover table-striped">
+          <thead class="thead-white">
+            <tr>
+              <th><strong>Name</strong></th>
+              <th><strong>Description</strong></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let form of forms">
+
+              <td>{{form.name}}</td>
+              <td>{{form.description}}</td>
+              <td>
+                <button mat-raised-button color="accent" (click)="deleteForm(form)"> Delete</button>
+                <!-- <button (click)="getFormById(form)" style="margin-left: 20px;" class="btn btn-info"> Get Form</button> -->
+                <div>{{singleForm}}</div>
+              </td>
+              <td>
+                <button mat-raised-button (click)="sendData(form)">Preview</button>
+              </td>
+              <td>
+                <button mat-raised-button (click)="viewStatistics()">Statistics</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </mat-card>
+</div>

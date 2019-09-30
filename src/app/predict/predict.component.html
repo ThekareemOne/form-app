@@ -1,0 +1,102 @@
+<mat-toolbar>Data Analytics</mat-toolbar>
+
+<div class="container">
+    <div>
+        <mat-card>
+          <mat-form-field class="full-width">
+            <mat-label>Class</mat-label>
+            <mat-select [(ngModel)]="nbParameters.question">
+              <mat-option *ngFor="let q of QUESTS" [value]="q.value">
+                {{q.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            <button mat-raised-button (click)="trainModel()">
+              Train model
+            </button>
+          </div>
+          <div *ngIf="nbResult">
+              <table class="table">
+                  <thead>
+                    <tr>
+                      <td scope="col"><strong>Accuracy</strong></td>
+                      <td scope="col"><strong>{{s_accuracy}}%</strong></td>
+                    </tr>
+                  </thead>
+                </table>
+          </div>
+        </mat-card>
+      </div>
+
+      <div>
+        <mat-card>
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>DISTRICT</mat-label>
+              <input matInput [(ngModel)]="questions.district" placeholder="">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>FACILITY</mat-label>
+              <input matInput [(ngModel)]="questions.facility" placeholder="">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>FINSTAT</mat-label>
+              <input matInput [(ngModel)]="questions.finstat" placeholder="">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>OPDCLIN</mat-label>
+              <input matInput [(ngModel)]="questions.opdclin" placeholder="">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>OWNER</mat-label>
+              <input matInput [(ngModel)]="questions.owner" placeholder="">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>SEX</mat-label>
+              <input matInput [(ngModel)]="questions.sex" placeholder="">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>TC</mat-label>
+              <input matInput [(ngModel)]="questions.tc" placeholder="">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="full-width">
+              <mat-label>WEIGHT</mat-label>
+              <input matInput [(ngModel)]="questions.weight" placeholder="">
+            </mat-form-field>
+          </div>
+          <button mat-raised-button (click)="predict()">Predict</button>
+        </mat-card>
+        <div *ngIf="probabilityPredictions">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Percentage (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let p of probabilityPredictions">
+                    <td>{{p.name}}</td>
+                    <td>{{p.value}}</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+      </div>
+</div>
